@@ -1,212 +1,55 @@
-/* Vanilla JS Calendar */
-function VanillaJsCalendar(options) {
+document.addEventListener("DOMContentLoaded", function () {
 
-	"use strict";
+	var Masonry = require("./modules/Masonry.js");
+	var VanillaJsCalendar = require("./modules/VanillaJsCalendar.js");
 
-	var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-	var dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-	var dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+	(function initialize() {
 
-	var theDate = new Date();
+		initMasonry();
+		initCalendar();
+	})();
 
-	var DateObject = function DateObject(theDate) {
-			this.date = theDate;
-			this.theDay = theDate.getDate();
-			this.dayName = dayNames[theDate.getDay()];
-			this.theMonth = monthNames[theDate.getMonth()];
-			this.theYear = theDate.getFullYear();
-			this.daysInMonth = new Date(theDate.getFullYear(), theDate.getMonth()+1, 0).getDate();
-			this.firstDayOfMonth = dayNames[new Date(theDate.getFullYear(), theDate.getMonth(), 1).getDay()];
-	};
 
-	var targetElem = options.targetElem;
+	function initMasonry() {
 
-	var currentDate = new DateObject(theDate);
-
-	var api = {
-		render: renderCalendar,
-		goToMonth: goToMonth
-	}
-
-	function renderCalendar(){
-
-		// Custom function to make new elements easier:
-		function addElem(elementType, elemClass, appendTarget){
-			appendTarget.innerHTML += "<"+elementType+" class="+elemClass+"> </"+elementType+">";
-		}
-
-		function getCell() {
-			var cell = document.createElement("li");
-				cell.className = "calendar-cell";
-				cell.innerHTML = "&nbsp";
-			return cell;
-		}
-
-		targetElem.innerHTML = "";
-
-		currentDate = new DateObject(theDate);
-
-		if ( options.dayView ) {
-			// Monday, dayView
-			addElem("div", "day-view", targetElem);
-			var dayView = document.querySelector('.day-view');
-			var dayNameElem = document.createElement("div"); // i.e.: Wednesday
-			dayNameElem.className = "day-header";
-			var dayNameNode = document.createTextNode(currentDate.dayName);
-			dayNameElem.appendChild(dayNameNode);
-			dayView.appendChild(dayNameElem);
-			// 21st, dayNumber
-			addElem("time", "day-number", dayView);
-			var dayNumber = document.querySelector('.day-number');
-			var dayNumNode = document.createTextNode(currentDate.theDay);
-			dayNumber.appendChild(dayNumNode);
-			dayView.appendChild(dayNumber);
-		}
-		if ( options.monthView ) {
-			addElem("div", "month-view", targetElem);
-			var monthView = document.querySelector('.month-view');
-
-			var prevMonthSpan = document.createElement("SPAN");
-			prevMonthSpan.addEventListener('click', function(){
-				goToMonth(-1); // Go To Previous Month
+		Array.prototype.map.call(document.querySelectorAll(".masonry"), function (element) {
+			return new Masonry({
+				items: element.querySelectorAll(".masonry__item")
 			});
-			prevMonthSpan.classList.add('arrow', 'float-left', 'prev-arrow');
-			var backArrow = document.createTextNode("<");
-			prevMonthSpan.appendChild(backArrow);
+		});
+	}
 
-			var nextMonthSpan = document.createElement("SPAN");
-			nextMonthSpan.addEventListener('click', function(){
-				goToMonth(1); // Go To Next Month
+	function initCalendar() {
+
+		Array.prototype.map.call(document.querySelectorAll(".calendar--swiper"), function (element) {
+			var calendar = new VanillaJsCalendar({
+				targetElem: element,
+				monthView: true,
+				showAllDates: true,
+				onRender: onCalendarRender
 			});
-			nextMonthSpan.classList.add('arrow', 'float-right', 'next-arrow');
-			var nextArrow = document.createTextNode(">");
-			nextMonthSpan.appendChild(nextArrow);
-
-			var monthSpan = document.createElement("SPAN");
-			monthSpan.className = "month-header";
-			var monthOf = document.createTextNode(
-				currentDate.theMonth
-			);
-
-			monthSpan.appendChild(prevMonthSpan);
-			monthSpan.appendChild(monthOf);
-			monthSpan.appendChild(nextMonthSpan);
-			monthView.appendChild(monthSpan);
-
-			for(var i=0; i < dayNamesShort.length; i++){
-				var dayOfWeek = document.createElement('div');
-				dayOfWeek.className = "day-of-week";
-				var charOfDay = document.createTextNode(dayNamesShort[i]);
-				dayOfWeek.appendChild(charOfDay);
-				monthView.appendChild(dayOfWeek);
-			}
-
-			// targetElem.appendChild(document.createElement("ul"));
-			var calendarList = document.createElement("ul");
-			for(i = 0; i < currentDate.daysInMonth; i++){
-				var calendarCell = document.createElement("li");
-				var calCellTime = document.createElement("time");
-				calendarList.appendChild(calendarCell);
-				calendarCell.id = 'day_'+(i+1);
-
-				var dayDataDate = new Date(theDate.getFullYear(), theDate.getMonth(), (i+1));
-				calCellTime.setAttribute('datetime', dayDataDate.toISOString());
-				calCellTime.setAttribute('data-dayofweek', dayNames[dayDataDate.getDay()]);
-
-				calendarCell.className = "calendar-cell calendar-day";
-				if(i === currentDate.theDay-1){
-					calendarCell.classList.add("today");
-				}
-				var dayOfMonth = document.createTextNode(i+1);
-				calCellTime.appendChild(dayOfMonth);
-				calendarCell.appendChild(calCellTime);
-				monthView.appendChild(calendarList);
-
-			} // daysInMonth for loop ends
-
-		}
-
-		document.addEventListener("keydown", function onDocumentKeyDown(event) {
-			switch (event.keyCode) {
-				case 37: //Left key
-					goToMonth(-1);
-					break;
-				case 39: //Right key
-					goToMonth(1);
-					break;
-			}
-		}, true);
-
-
-		var dayOne = document.getElementById('day_1');
-		if (currentDate.firstDayOfMonth == "Monday"){
-			for (var i = 0; i < 1; i++) {
-				dayOne.parentNode.insertBefore(getCell(), dayOne);
-			}
-		}
-		if (currentDate.firstDayOfMonth == "Tuesday"){
-			for (var i = 0; i < 2; i++) {
-				dayOne.parentNode.insertBefore(getCell(), dayOne);
-			}
-		}
-		if (currentDate.firstDayOfMonth == "Wednesday"){
-			for (var i = 0; i < 3; i++) {
-				dayOne.parentNode.insertBefore(getCell(), dayOne);
-			}
-		}
-		if (currentDate.firstDayOfMonth == "Thursday"){
-			for (var i = 0; i < 4; i++) {
-				dayOne.parentNode.insertBefore(getCell(), dayOne);
-			}
-		}
-		if (currentDate.firstDayOfMonth == "Friday"){
-			for (var i = 0; i < 5; i++) {
-				dayOne.parentNode.insertBefore(getCell(), dayOne);
-			}
-		}
-		if (currentDate.firstDayOfMonth == "Saturday"){
-			for (var i = 0; i < 6; i++) {
-				dayOne.parentNode.insertBefore(getCell(), dayOne);
-			}
-		}
-
-		var dayHeader = document.querySelector('.day-header');
-		var dayNumNode = document.querySelector('.day-number');
-		var updateDay = function(){
-			var thisCellTime = this.querySelector('time');
-			if ( dayHeader ) {
-				dayHeader.textContent = thisCellTime.getAttribute('data-dayofweek');
-			}
-			if ( dayNumNode ) {
-				dayNumNode.textContent = this.textContent;
-			}
-		}
-
-		var calCells = document.getElementsByClassName('calendar-cell');
-		for(i = 0; i < calCells.length; i++){
-			calCells[i].addEventListener('click', updateDay, false);
-		}
-
-		if ( typeof options.onRender == "function" ) {
-			options.onRender(targetElem, theDate);
-		}
-
-	} // renderCalener function ends
-
-	function goToMonth(direction, date) {
-		if (typeof direction == "number"){
-			theDate = new Date(theDate.getFullYear(), theDate.getMonth() + direction, 1);
-		} else if ( date ) {
-			theDate = new DateObject(date);
-		}
-		return renderCalendar();
+		});
 	}
 
-	if ( targetElem ) {
-		return renderCalendar(), api;
-	}
-};
-if ( typeof module != "undefined" ) {
-	module.exports = VanillaJsCalendar;
-}
+	function onCalendarRender(targetElem, theDate) {
 
+		var year = document.querySelector(".calendar .event--year");
+		if ( year ) {
+			year.textContent = theDate.getFullYear();
+		}
+		var monthHeader = targetElem.querySelector(".month-header");
+		if ( monthHeader ) {
+			monthHeader.classList.add("event--month");
+		}
+		var arrows = targetElem.querySelectorAll(".arrow");
+		Array.prototype.map.call(arrows, function (element, i) {
+			element.classList.add( "button" );
+			element.classList.add( "icon" );
+			element.classList.add( "inverted" );
+			element.classList.add( i == 0 ? "prev" : "next" );
+			element.innerHTML = "";
+		});
+
+	}
+
+});
