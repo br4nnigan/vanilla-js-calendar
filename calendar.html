@@ -31,15 +31,19 @@
     <div class="container">
         <h3>How To Use:</h3>
         <pre>
-// Target an element ID you want to render the calendar inside of:       
-renderCalendar(calendarThis); 
-
-// Something like this in your HTML file:
-&lt;div id="calendarThis"&gt; &lt;div&gt; 
-
+            var calendar = new VanillaJsCalendar({
+				targetElem: document.querySelector("#myId"),
+				monthView: true,
+                dayView: true,
+				showAllDates: true,
+				onRender: function(){
+                    // do stuff after render
+                }
+			});
+ </pre>
 // Source code:
 <a href="https://github.com/mikeumus/vanilla-js-calendar">https://github.com/mikeumus/vanilla-js-calendar</a>
-        </pre>
+       
     </div>
     
     <script src="calendar.js"></script>
