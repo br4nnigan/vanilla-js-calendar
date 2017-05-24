@@ -67,7 +67,7 @@ function VanillaJsCalendar(options) {
 
 			var prevMonthSpan = document.createElement("SPAN");
 			prevMonthSpan.addEventListener('click', function(){
-				goToMonth(currentDate, false); // Go To Previous Month
+				goToMonth(-1); // Go To Previous Month
 			});
 			prevMonthSpan.classList.add('arrow', 'float-left', 'prev-arrow');
 			var backArrow = document.createTextNode("<");
@@ -75,7 +75,7 @@ function VanillaJsCalendar(options) {
 
 			var nextMonthSpan = document.createElement("SPAN");
 			nextMonthSpan.addEventListener('click', function(){
-				goToMonth(currentDate, true); // Go To Next Month
+				goToMonth(1); // Go To Next Month
 			});
 			nextMonthSpan.classList.add('arrow', 'float-right', 'next-arrow');
 			var nextArrow = document.createTextNode(">");
@@ -128,10 +128,10 @@ function VanillaJsCalendar(options) {
 		document.addEventListener("keydown", function onDocumentKeyDown(event) {
 			switch (event.keyCode) {
 				case 37: //Left key
-					goToMonth(currentDate, false);
+					goToMonth(-1);
 					break;
 				case 39: //Right key
-					goToMonth(currentDate, true);
+					goToMonth(1);
 					break;
 			}
 		}, true);
@@ -192,11 +192,11 @@ function VanillaJsCalendar(options) {
 
 	} // renderCalener function ends
 
-	function goToMonth(currentDate, direction) {
-		if (direction == false){
-			theDate = new Date(theDate.getFullYear(), theDate.getMonth()-1, 1);
-		} else{
-			theDate = new Date(theDate.getFullYear(), theDate.getMonth()+1, 1);
+	function goToMonth(direction, date) {
+		if (typeof direction == "number"){
+			theDate = new Date(theDate.getFullYear(), theDate.getMonth() + direction, 1);
+		} else if ( date ) {
+			theDate = new DateObject(date);
 		}
 		return renderCalendar();
 	}
