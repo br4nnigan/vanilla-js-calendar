@@ -205,4 +205,7 @@ function VanillaJsCalendar(options) {
 		return renderCalendar(), api;
 	}
 };
-module.exports = VanillaJsCalendar;
+if ( typeof module != "undefined" ) {
+	module.exports = VanillaJsCalendar;
+}
+
