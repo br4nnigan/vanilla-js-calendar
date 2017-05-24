@@ -1,10 +1,10 @@
 /* Vanilla JS Calendar */
-(function vanillaJsCalendar(){
+function vanillaJsCalendar(targetElem) {
 
-"use strict";
+	"use strict";
 
-var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-var dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+	var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	var dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 	var theDate = new Date();
 
@@ -19,12 +19,19 @@ var dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
 
 	var currentDate = new DateObject(theDate);
 
-	function renderCalendar(targetElem){
+	var api = {
+		render: renderCalendar,
+		goToMonth: goToMonth
+	}
+
+	function renderCalendar(){
 
 			// Custom function to make new elements easier:
 			function addElem(elementType, elemClass, appendTarget){
 				appendTarget.innerHTML += "<"+elementType+" class="+elemClass+"> </"+elementType+">";
 			}
+
+			targetElem.innerHTML = "";
 
 			currentDate = new DateObject(theDate);
 
@@ -146,16 +153,14 @@ var dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
 
 	} // renderCalener function ends
 
-	// console.log(new DateObject(theDate));
-	renderCalendar("calendarThis");
-
 	function goToMonth(currentDate, direction) {
 		if (direction == false){
 			theDate = new Date(theDate.getFullYear(), theDate.getMonth()-1, 1);
 		} else{
 			theDate = new Date(theDate.getFullYear(), theDate.getMonth()+1, 1);
 		}
-		return renderCalendar("calendarThis");
+		return renderCalendar();
 	}
 
-})(); // iife (immediately invoked function expressions) ends
+	return renderCalendar(), api;
+}; // iife (immediately invoked function expressions) ends
