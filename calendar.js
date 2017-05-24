@@ -33,6 +33,12 @@ function VanillaJsCalendar(options) {
 				appendTarget.innerHTML += "<"+elementType+" class="+elemClass+"> </"+elementType+">";
 			}
 
+			function getCell() {
+				var cell = document.createElement("li");
+					cell.className = "calendar-cell";
+				return cell;
+			}
+
 			targetElem.innerHTML = "";
 
 			currentDate = new DateObject(theDate);
@@ -99,11 +105,12 @@ function VanillaJsCalendar(options) {
 					var calCellTime = document.createElement("time");
 					calendarList.appendChild(calendarCell);
 					calendarCell.id = 'day_'+(i+1);
+
 					var dayDataDate = new Date(theDate.getFullYear(), theDate.getMonth(), (i+1));
 					calCellTime.setAttribute('datetime', dayDataDate.toISOString());
 					calCellTime.setAttribute('data-dayofweek', dayNames[dayDataDate.getDay()]);
 
-					calendarCell.className = "calendar-cell";
+					calendarCell.className = "calendar-cell calendar-day";
 					if(i === currentDate.theDay-1){
 						calendarCell.className = "today";
 					}
@@ -130,25 +137,46 @@ function VanillaJsCalendar(options) {
 
 			var dayOne = document.getElementById('day_1');
 			if (currentDate.firstDayOfMonth == "Monday"){
-				dayOne.style.marginLeft = "49px";
-			} else if (currentDate.firstDayOfMonth == "Tuesday"){
-				dayOne.style.marginLeft = "98px";
-			} else if (currentDate.firstDayOfMonth == "Wednesday"){
-				dayOne.style.marginLeft = "147px";
-			} else if (currentDate.firstDayOfMonth == "Thursday"){
-				dayOne.style.marginLeft = "196px";
-			} else if (currentDate.firstDayOfMonth == "Friday"){
-				dayOne.style.marginLeft = "245px";
-			} else if (currentDate.firstDayOfMonth == "Saturday"){
-				dayOne.style.marginLeft = "304px";
+				for (var i = 0; i < 1; i++) {
+					dayOne.parentNode.insertBefore(getCell(), dayOne);
+				}
+			}
+			if (currentDate.firstDayOfMonth == "Tuesday"){
+				for (var i = 0; i < 2; i++) {
+					dayOne.parentNode.insertBefore(getCell(), dayOne);
+				}
+			}
+			if (currentDate.firstDayOfMonth == "Wednesday"){
+				for (var i = 0; i < 3; i++) {
+					dayOne.parentNode.insertBefore(getCell(), dayOne);
+				}
+			}
+			if (currentDate.firstDayOfMonth == "Thursday"){
+				for (var i = 0; i < 4; i++) {
+					dayOne.parentNode.insertBefore(getCell(), dayOne);
+				}
+			}
+			if (currentDate.firstDayOfMonth == "Friday"){
+				for (var i = 0; i < 5; i++) {
+					dayOne.parentNode.insertBefore(getCell(), dayOne);
+				}
+			}
+			if (currentDate.firstDayOfMonth == "Saturday"){
+				for (var i = 0; i < 6; i++) {
+					dayOne.parentNode.insertBefore(getCell(), dayOne);
+				}
 			}
 
-			var dayHeader = document.getElementsByClassName('day-header');
-			var dayNumNode = document.getElementsByClassName('day-number');
+			var dayHeader = document.querySelector('.day-header');
+			var dayNumNode = document.querySelector('.day-number');
 			var updateDay = function(){
 				var thisCellTime = this.querySelector('time');
-				dayHeader[0].textContent = thisCellTime.getAttribute('data-dayofweek');
-				dayNumNode[0].textContent = this.textContent;
+				if ( dayHeader ) {
+					dayHeader.textContent = thisCellTime.getAttribute('data-dayofweek');
+				}
+				if ( dayNumNode ) {
+					dayNumNode.textContent = this.textContent;
+				}
 			}
 
 			var calCells = document.getElementsByClassName('calendar-cell');
