@@ -152,7 +152,13 @@ function VanillaJsCalendar(options) {
 							dayHasEvent = true;
 							calendarCell.classList.add("event--start");
 							calendarCell.setAttribute("data-event-start", event.id);
+
+							if ( !event.endDate ) {
+								calendarCell.classList.add("event--end");
+								calendarCell.setAttribute("data-event-end", event.id);
+							}
 						}
+
 						if ( event.endDate && event.endDate.toString() == dayDataDate.toString() ) {
 
 							dayHasEvent = true;
