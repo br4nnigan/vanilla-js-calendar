@@ -10,6 +10,7 @@ function VanillaJsCalendar(options) {
 	var theDate = new Date();
 
 	var DateObject = function DateObject(theDate) {
+			this.date = theDate;
 			this.theDay = theDate.getDate();
 			this.dayName = dayNames[theDate.getDay()];
 			this.theMonth = monthNames[theDate.getMonth()];
@@ -187,7 +188,7 @@ function VanillaJsCalendar(options) {
 		}
 
 		if ( typeof options.onRender == "function" ) {
-			options.onRender.call(targetElem);
+			options.onRender(targetElem, theDate);
 		}
 
 	} // renderCalener function ends
