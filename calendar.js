@@ -21,7 +21,7 @@ function VanillaJsCalendar(options) {
 
 	function addEvent(event) {
 
-		events[events.id] = event;
+		events[event.id] = event;
 		renderCalendar();
 	}
 
@@ -157,13 +157,14 @@ function VanillaJsCalendar(options) {
 							calendarCell.setAttribute("data-event-mid", event.id);
 						}
 
+						if ( dayHasEvent && typeof event.onClick == "function") {
+							calendarCell.classList.add("has-event");
+							calendarCell.addEventListener("click", function () {
+								event.onClick(event);
+							});
+						}
 						if ( dayHasEvent ) {
-							calendarCell.classList.add("event--mid");
-							if ( typeof event.onClick == "function" ) {
-								calendarCell.addEventListener("click", function () {
-									event.onClick(event);
-								});
-							}
+							// console.log('test', dayDataDate, calendarCell);
 						}
 					}
 				}
