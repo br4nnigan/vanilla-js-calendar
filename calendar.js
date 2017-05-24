@@ -128,7 +128,6 @@ function VanillaJsCalendar(options) {
 
 				var dayNumber = (i < 9) && options.minDigits === 2 ? "0" + (i + 1) : i + 1;
 				var dayOfMonth = document.createTextNode(dayNumber);
-				console.log('test', dayOfMonth);
 				calCellTime.appendChild(dayOfMonth);
 				calendarCell.appendChild(calCellTime);
 				monthView.appendChild(calendarList);
@@ -174,12 +173,7 @@ function VanillaJsCalendar(options) {
 
 						if ( dayHasEvent && typeof event.onClick == "function") {
 							calendarCell.classList.add("has-event");
-							calendarCell.addEventListener("click", function () {
-								event.onClick(event);
-							});
-						}
-						if ( dayHasEvent ) {
-							// console.log('test', dayDataDate, calendarCell);
+							calendarCell.addEventListener("click", event.onClick);
 						}
 					}
 				}
