@@ -28,13 +28,6 @@ var dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
 
 			currentDate = new DateObject(theDate);
 
-			// Refreshing Calendar
-			var renderTarget = document.getElementById(targetElem);
-			renderTarget.remove();
-			renderTarget = document.createElement("div");
-			renderTarget.id = targetElem;
-			document.getElementsByTagName('body')[0].appendChild(renderTarget);
-
 			// Monday, dayView
 			addElem("div", "day-view", renderTarget);
 			var dayView = document.querySelector('.day-view');
