@@ -187,7 +187,6 @@ function VanillaJsCalendar(options) {
 
 						if ( dayHasEvent ) {
 							calendarCell.classList.add("has-event");
-							calendarCell.addEventListener("click", event.onClick);
 						}
 					}
 				}
@@ -279,17 +278,17 @@ function VanillaJsCalendar(options) {
 	if ( targetElem ) {
 		return renderCalendar(), api;
 	}
-};
+}
 function DateObject(theDate) {
-		this.date = theDate;
-		this.theDay = theDate.getDate();
-		this.dayName = dayNames[theDate.getDay()];
-		this.theMonth = monthNames[theDate.getMonth()];
-		this.theYear = theDate.getFullYear();
-		this.daysInMonth = new Date(theDate.getFullYear(), theDate.getMonth()+1, 0).getDate();
-		this.firstDayOfMonth = dayNames[new Date(theDate.getFullYear(), theDate.getMonth(), 1).getDay()];
-		this.lastDayOfMonth = dayNames[new Date(theDate.getFullYear(), theDate.getMonth(), this.daysInMonth).getDay()];
-};
+	this.date = theDate;
+	this.theDay = theDate.getDate();
+	this.dayName = dayNames[theDate.getDay()];
+	this.theMonth = monthNames[theDate.getMonth()];
+	this.theYear = theDate.getFullYear();
+	this.daysInMonth = new Date(theDate.getFullYear(), theDate.getMonth()+1, 0).getDate();
+	this.firstDayOfMonth = dayNames[new Date(theDate.getFullYear(), theDate.getMonth(), 1).getDay()];
+	this.lastDayOfMonth = dayNames[new Date(theDate.getFullYear(), theDate.getMonth(), this.daysInMonth).getDay()];
+}
 if ( typeof module != "undefined" ) {
 	module.exports = { VanillaJsCalendar: VanillaJsCalendar, DateObject: DateObject };
 }
