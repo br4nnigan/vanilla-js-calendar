@@ -262,11 +262,11 @@ function VanillaJsCalendar(options) {
 
 	} // renderCalener function ends
 
-	function goToMonth(direction, date) {
-		if (typeof direction == "number"){
-			theDate = new Date(theDate.getFullYear(), theDate.getMonth() + direction, 1);
-		} else if ( date ) {
-			theDate = new DateObject(date);
+	function goToMonth(value) {
+		if (typeof value == "number"){
+			theDate = new Date(theDate.getFullYear(), theDate.getMonth() + value, 1);
+		} else if ( value instanceof Date ) {
+			theDate = value
 		}
 		return renderCalendar();
 	}
