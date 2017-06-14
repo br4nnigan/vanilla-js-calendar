@@ -1,4 +1,5 @@
 /* Vanilla JS Calendar */
+var Hammer = require("hammerjs");
 
 var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -78,22 +79,27 @@ function VanillaJsCalendar(options) {
 		if ( options.monthView ) {
 			addElem("div", "month-view", targetElem);
 			var monthView = document.querySelector('.month-view');
-
-			var prevMonthSpan = document.createElement("SPAN");
-			prevMonthSpan.addEventListener('click', function(){
-				goToMonth(-1); // Go To Previous Month
-			});
-			prevMonthSpan.classList.add('arrow', 'float-left', 'prev-arrow');
 			var backArrow = document.createTextNode("<");
+			prevMonthSpan.classList.add('arrow', 'float-left', 'prev-arrow');
 			prevMonthSpan.appendChild(backArrow);
 
+			var prevMonthSpan = document.createElement("SPAN");
+			if ( options.bindControls !== false ) {
+				new Hammer(prevMonthSpan).on("tap", function(){
+					goToMonth(-1); // Go To Next Month
+				});
+			}
+
 			var nextMonthSpan = document.createElement("SPAN");
-			nextMonthSpan.addEventListener('click', function(){
-				goToMonth(1); // Go To Next Month
-			});
-			nextMonthSpan.classList.add('arrow', 'float-right', 'next-arrow');
 			var nextArrow = document.createTextNode(">");
+			nextMonthSpan.classList.add('arrow', 'float-right', 'next-arrow');
 			nextMonthSpan.appendChild(nextArrow);
+
+			if ( options.bindControls !== false ) {
+				new Hammer(nextMonthSpan).on("tap", function(){
+					goToMonth(1); // Go To Next Month
+				});
+			}
 
 			var monthSpan = document.createElement("SPAN");
 				monthSpan.className = "month-header";
@@ -105,7 +111,6 @@ function VanillaJsCalendar(options) {
 			monthSpan.appendChild(monthOf);
 			monthSpan.appendChild(nextMonthSpan);
 			monthView.appendChild(monthSpan);
-
 
 			for(var i=0; i < dayNamesShort.length; i++){
 				var dayOfWeek = document.createElement('div');
