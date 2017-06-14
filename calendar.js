@@ -131,6 +131,9 @@ function VanillaJsCalendar(options) {
 				if(i === currentDate.theDay-1){
 					calendarCell.classList.add("today");
 				}
+				if(i === currentDate.daysInMonth-1){
+					calendarCell.classList.add("calendar-day--this-month--last");
+				}
 
 				var dayNumber = (i < 9) && options.minDigits === 2 ? "0" + (i + 1) : i + 1;
 				var dayOfMonth = document.createTextNode(dayNumber);
