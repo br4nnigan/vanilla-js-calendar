@@ -154,30 +154,35 @@ function VanillaJsCalendar(options) {
 
 						var event = events[id];
 						var dayHasEvent = false;
+						var dataEvent = "";
 
 						if ( event.startDate.toString() == dayDataDate.toString() ) {
 
 							dayHasEvent = true;
 							calendarCell.classList.add("event--start");
-							calendarCell.setAttribute("data-event-start", event.id);
+							dataEvent = calendarCell.getAttribute("data-event-start");
+							calendarCell.setAttribute("data-event-start", dataEvent ? dataEvent + "," + event.id : event.id);
 
 							if ( !event.endDate ) {
 								calendarCell.classList.add("event--end");
-								calendarCell.setAttribute("data-event-end", event.id);
+								dataEvent = calendarCell.getAttribute("data-event-end");
+								calendarCell.setAttribute("data-event-end", dataEvent ? dataEvent + "," + event.id : event.id);
 							}
 						}
 
 						if ( event.endDate && event.endDate.toString() == dayDataDate.toString() ) {
 
 							dayHasEvent = true;
+							dataEvent = calendarCell.getAttribute("data-event-end");
 							calendarCell.classList.add("event--end");
-							calendarCell.setAttribute("data-event-end", event.id);
+							calendarCell.setAttribute("data-event-end", dataEvent ? dataEvent + "," + event.id : event.id);
 						}
 						if ( event.endDate && event.startDate.getTime() < dayDataDate.getTime() && event.endDate.getTime() > dayDataDate.getTime() ) {
 
 							dayHasEvent = true;
+							dataEvent = calendarCell.getAttribute("data-event-mid");
 							calendarCell.classList.add("event--mid");
-							calendarCell.setAttribute("data-event-mid", event.id);
+							calendarCell.setAttribute("data-event-mid", dataEvent ? dataEvent + "," + event.id : event.id);
 						}
 
 						if ( dayHasEvent ) {
