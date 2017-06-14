@@ -17,7 +17,13 @@ function VanillaJsCalendar(options) {
 	var api = {
 		goToMonth: goToMonth,
 		addEvent: addEvent,
-		addEvents: addEvents
+		addEvents: addEvents,
+		getDate: getDate
+	}
+
+	function getDate() {
+
+		return theDate;
 	}
 
 	function addEvents(eventsToAdd) {
