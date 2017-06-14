@@ -96,10 +96,10 @@ function VanillaJsCalendar(options) {
 			nextMonthSpan.appendChild(nextArrow);
 
 			var monthSpan = document.createElement("SPAN");
-			monthSpan.className = "month-header";
-			var monthOf = document.createTextNode(
-				currentDate.theMonth
-			);
+				monthSpan.className = "month-header";
+			var monthOf = document.createElement("SPAN");
+				monthOf.textContent = currentDate.theMonth;
+				monthOf.className = "month-name";
 
 			monthSpan.appendChild(prevMonthSpan);
 			monthSpan.appendChild(monthOf);
