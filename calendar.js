@@ -124,7 +124,7 @@ function VanillaJsCalendar(options) {
 				calendarCell.id = 'day_'+(i+1);
 
 				var dayDataDate = new Date(theDate.getFullYear(), theDate.getMonth(), (i+1));
-				calCellTime.setAttribute('datetime', dayDataDate.toISOString());
+				calCellTime.setAttribute('datetime', dayDataDate.toDateString());
 				calCellTime.setAttribute('data-dayofweek', dayNames[dayDataDate.getDay()]);
 
 				calendarCell.className = "calendar-cell calendar-day calendar-day--this-month";
