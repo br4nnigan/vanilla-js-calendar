@@ -80,20 +80,21 @@ function VanillaJsCalendar(options) {
 			addElem("div", "month-view", targetElem);
 			var monthView = document.querySelector('.month-view');
 			var backArrow = document.createTextNode("<");
-			prevMonthSpan.classList.add('arrow', 'float-left', 'prev-arrow');
-			prevMonthSpan.appendChild(backArrow);
-
 			var prevMonthSpan = document.createElement("SPAN");
+				prevMonthSpan.classList.add('arrow', 'float-left', 'prev-arrow');
+				prevMonthSpan.appendChild(backArrow);
+
+
 			if ( options.bindControls !== false ) {
 				new Hammer(prevMonthSpan).on("tap", function(){
 					goToMonth(-1); // Go To Next Month
 				});
 			}
 
-			var nextMonthSpan = document.createElement("SPAN");
 			var nextArrow = document.createTextNode(">");
-			nextMonthSpan.classList.add('arrow', 'float-right', 'next-arrow');
-			nextMonthSpan.appendChild(nextArrow);
+			var nextMonthSpan = document.createElement("SPAN");
+				nextMonthSpan.classList.add('arrow', 'float-right', 'next-arrow');
+				nextMonthSpan.appendChild(nextArrow);
 
 			if ( options.bindControls !== false ) {
 				new Hammer(nextMonthSpan).on("tap", function(){
