@@ -180,7 +180,7 @@ function VanillaJsCalendar(options) {
 							calendarCell.setAttribute("data-event-mid", event.id);
 						}
 
-						if ( dayHasEvent && typeof event.onClick == "function") {
+						if ( dayHasEvent ) {
 							calendarCell.classList.add("has-event");
 							calendarCell.addEventListener("click", event.onClick);
 						}
